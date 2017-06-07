@@ -15,6 +15,7 @@ filter:
 	push	ebp
 	mov	ebp, esp
 	
+
 	push	DWORD[ebp+16]
 	push	DWORD[ebp+12]
 
@@ -188,7 +189,7 @@ smallest_found:
 	add	eax, [ebp-20]
 	cmp	[ebp-12], eax
 	jne	writing
-
+	
 	;write last pixel and padding to result
 	pop	esi
 	add	esi, [ebp-12]
@@ -204,13 +205,14 @@ smallest_found:
 	jne	add_new_row
 
 	;find last row in buffer
+	
 	mov      eax, [ebp-24]
     	cdq
     	mov      ecx, 3
     	idiv     ecx
 
     	imul      edx, [ebp-12]
-
+	
 	;write last row to result
 	mov	esi, [ebp+8]
 	mov	edi, [ebp-4]
@@ -220,11 +222,11 @@ smallest_found:
 	mov	[ebp-4], edi
 ending:
 
-	;mov	eax, esp
+	;mov	eax, ecx
 	;sub	eax, ebp
 
-	;mov	esp, ebp
-	add	esp, 32
+	mov	esp, ebp
+	;add	esp, 32
 	pop	ebp
 	ret
 

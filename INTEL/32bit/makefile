@@ -1,15 +1,17 @@
 CC=g++
-ASMBIN=nasm
+CFLAGS=-m32
 
-all : asm cc link
-asm : 
-	$(ASMBIN) -o filter.o -f elf -l filter.lst filter.asm
-cc :
-	$(CC) -m32 -c -g -O0 main.cc &> errors.txt
-link :
-	$(CC) -m32 -o test -lstdc++ main.o filter.o
-clean :
-	rm errors.txt	
-	rm filter.lst
+ASM=nasm
+AFLAGS=-f elf32
+
+all:result
+
+main.o: main.cc
+	$(CC) $(CFLAGS) -c main.cc
+filter.o: filter.asm
+	$(ASM) $(AFLAGS) filter.asm
+result: main.o filter.o
+	$(CC) $(CFLAGS) main.o filter.o -o result -lpthread -lX11
+clean: 
 	rm *.o
-	rm test
+	rm result
